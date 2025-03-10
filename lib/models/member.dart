@@ -4,7 +4,16 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 enum MemberRole {
   owner,
   admin,
-  viewer,
+  viewer;
+
+  String get value => name;
+
+  static MemberRole fromString(String value) {
+    return MemberRole.values.firstWhere(
+      (role) => role.name == value,
+      orElse: () => MemberRole.viewer,
+    );
+  }
 }
 
 class Member {
@@ -13,34 +22,32 @@ class Member {
   final MemberRole role;
   final Audit audit;
 
-  Member({
+  const Member({
     required this.user,
     required this.email,
     required this.role,
     required this.audit,
   });
 
-  String _roleToString(MemberRole role) {
-    return role.toString().split('.').last;
-  }
+  factory Member.fromFirestore(DocumentSnapshot<Map<String, dynamic>> doc) {
+    final data = doc.data() ?? {};
 
-  factory Member.fromFirestore(DocumentSnapshot doc) {
-    Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
     return Member(
-      user: data['user'] ?? '',
-      email: data['email'] ?? '',
-      role: MemberRole.values
-          .firstWhere((e) => e.toString().split('.').last == data['role']),
+      user: data['user'] as String? ?? '',
+      email: data['email'] as String? ?? '',
+      role: MemberRole.fromString(data['role'] as String? ?? ''),
       audit: Audit.fromFirestore(data),
     );
   }
 
-  Map<String, dynamic> toFirestore() {
-    return {
-      'user': user,
-      'email': email,
-      'role': _roleToString(role),
-      ...audit.toFirestore(),
-    };
-  }
+  Map<String, dynamic> toFirestore() => {
+        'user': user,
+        'email': email,
+        'role': role.value,
+        ...audit.toFirestore(),
+      };
+
+  @override
+  String toString() =>
+      'Member(user: $user, email: $email, role: ${role.value})';
 }

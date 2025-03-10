@@ -45,3 +45,6 @@ app.*.map.json
 # Android/Flutter build and temporary files
 android/app/.cxx/
 **/android/app/.cxx/
+
+# VS Code
+.vscode/

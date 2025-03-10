@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:animate_do/animate_do.dart';
 import 'package:architecto/extensions/theme.dart';
-import 'package:architecto/models/common.dart';
+import 'package:architecto/models/result.dart';
 import 'package:architecto/providers/auth/provider.dart';
 import 'package:architecto/widgets/button.dart';
 import 'package:architecto/widgets/snackbar.dart';

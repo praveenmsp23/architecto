@@ -8,34 +8,33 @@ class Invitations {
   final String invitedBy;
   final Audit audit;
 
-  Invitations({
+  const Invitations({
     required this.email,
     required this.role,
     required this.invitedBy,
     required this.audit,
   });
 
-  String _roleToString(MemberRole role) {
-    return role.toString().split('.').last;
-  }
+  factory Invitations.fromFirestore(
+      DocumentSnapshot<Map<String, dynamic>> doc) {
+    final data = doc.data() ?? {};
 
-  factory Invitations.fromFirestore(DocumentSnapshot doc) {
-    Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
     return Invitations(
-      email: data['email'] ?? '',
-      role: MemberRole.values
-          .firstWhere((e) => e.toString().split('.').last == data['role']),
-      invitedBy: data['invitedBy'] ?? '',
+      email: data['email'] as String? ?? '',
+      role: MemberRole.fromString(data['role'] as String? ?? ''),
+      invitedBy: data['invitedBy'] as String? ?? '',
       audit: Audit.fromFirestore(data),
     );
   }
 
-  Map<String, dynamic> toFirestore() {
-    return {
-      'email': email,
-      'role': _roleToString(role),
-      'invitedBy': invitedBy,
-      ...audit.toFirestore(),
-    };
-  }
+  Map<String, dynamic> toFirestore() => {
+        'email': email,
+        'role': role.value,
+        'invitedBy': invitedBy,
+        ...audit.toFirestore(),
+      };
+
+  @override
+  String toString() =>
+      'Invitations(email: $email, role: ${role.value}, invitedBy: $invitedBy)';
 }

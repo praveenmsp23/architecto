@@ -7,29 +7,33 @@ class Organization {
   final String? address;
   final Audit audit;
 
-  Organization({
+  const Organization({
     required this.name,
-    required this.about,
-    required this.address,
+    this.about,
+    this.address,
     required this.audit,
   });
 
-  factory Organization.fromFirestore(DocumentSnapshot doc) {
-    Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
+  factory Organization.fromFirestore(
+      DocumentSnapshot<Map<String, dynamic>> doc) {
+    final data = doc.data() ?? {};
+
     return Organization(
-      name: data['name'] ?? '',
-      about: data['about'] ?? '',
-      address: data['address'] ?? '',
+      name: data['name'] as String? ?? '',
+      about: data['about'] as String?,
+      address: data['address'] as String?,
       audit: Audit.fromFirestore(data),
     );
   }
 
-  Map<String, dynamic> toFirestore() {
-    return {
-      'name': name,
-      'about': about,
-      'address': address,
-      ...audit.toFirestore(),
-    };
-  }
+  Map<String, dynamic> toFirestore() => {
+        'name': name,
+        'about': about,
+        'address': address,
+        ...audit.toFirestore(),
+      };
+
+  @override
+  String toString() =>
+      'Organization(name: $name, about: $about, address: $address)';
 }

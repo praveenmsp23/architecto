@@ -10,7 +10,7 @@ class SiteStore {
   Future<Site?> getSite(String siteId) async {
     DocumentSnapshot doc = await sites.doc(siteId).get();
     if (doc.exists) {
-      return Site.fromFirestore(doc);
+      return Site.fromFirestore(doc as DocumentSnapshot<Map<String, dynamic>>);
     }
     return null;
   }

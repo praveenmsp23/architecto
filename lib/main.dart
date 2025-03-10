@@ -11,7 +11,7 @@ import 'package:provider/provider.dart';
 import 'config/config.dart';
 import 'config/firebase_options.dart';
 
-void main() async {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   Config.initialize();
@@ -21,13 +21,12 @@ void main() async {
   );
   Get.put(AuthProvider());
 
-  runApp(Architecto(
-    themeMode: await AdaptiveTheme.getThemeMode(),
-  ));
+  final savedThemeMode = await AdaptiveTheme.getThemeMode();
+  runApp(Architecto(themeMode: savedThemeMode));
 }
 
 class Architecto extends StatefulWidget {
-  final themeMode;
+  final AdaptiveThemeMode? themeMode;
 
   const Architecto({Key? key, @required this.themeMode}) : super(key: key);
 
@@ -39,7 +38,7 @@ class _ArchitectoState extends State<Architecto> {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (context) => AuthProvider(),
+      create: (_) => AuthProvider(),
       child: CupertinoAdaptiveTheme(
         debugShowFloatingThemeButton: true,
         light: Themes().lightTheme,

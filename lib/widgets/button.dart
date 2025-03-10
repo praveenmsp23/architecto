@@ -115,8 +115,9 @@ class Button extends StatelessWidget {
                     ? TextDecoration.underline
                     : TextDecoration.none,
                 fontSize: _getFontSize(),
-                color: _getTextColor(context)
-                    .withOpacity(!isEnabled || isLoading ? 0.75 : 1),
+                color: _getTextColor(context).withAlpha(
+                  (!isEnabled || isLoading ? 192 : 255), // 0.75 opacity = 192 alpha, 1.0 = 255
+                ),
                 fontWeight: FontWeight.bold,
               ),
             ),

@@ -2,16 +2,19 @@ import 'package:flutter/cupertino.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 
 class HomePage extends StatefulWidget {
+  const HomePage({super.key});
+
   @override
-  _HomePageState createState() => _HomePageState();
+  State<HomePage> createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
   int _selectedIndex = 0;
-  final List<Widget> _tabs = [
-    Placeholder(),
-    Placeholder(),
-    Placeholder(),
+
+  static const _navItems = [
+    (icon: CupertinoIcons.home, label: 'Home', screen: Placeholder()),
+    (icon: CupertinoIcons.search, label: 'Search', screen: Placeholder()),
+    (icon: CupertinoIcons.person, label: 'Profile', screen: Placeholder()),
   ];
 
   @override
@@ -19,11 +22,10 @@ class _HomePageState extends State<HomePage> {
     return CupertinoPageScaffold(
       child: Stack(
         children: [
-          _tabs[_selectedIndex],
+          _navItems[_selectedIndex].screen,
           Align(
             alignment: Alignment.bottomCenter,
             child: Container(
-              // padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 20.0),
               color: CupertinoColors.systemGrey.withOpacity(0.1),
               child: GNav(
                 gap: 8,
@@ -31,25 +33,14 @@ class _HomePageState extends State<HomePage> {
                 color: CupertinoColors.systemGrey,
                 backgroundColor: CupertinoColors.activeBlue,
                 tabBackgroundColor: CupertinoColors.activeBlue.withOpacity(0.6),
-                padding: EdgeInsets.all(16),
-                onTabChange: (index) {
-                  setState(() {
-                    _selectedIndex = index;
-                  });
-                },
+                padding: const EdgeInsets.all(16),
+                onTabChange: (index) => setState(() => _selectedIndex = index),
                 tabs: [
-                  GButton(
-                    icon: CupertinoIcons.home,
-                    text: 'Home',
-                  ),
-                  GButton(
-                    icon: CupertinoIcons.search,
-                    text: 'Search',
-                  ),
-                  GButton(
-                    icon: CupertinoIcons.person,
-                    text: 'Profile',
-                  ),
+                  for (final item in _navItems)
+                    GButton(
+                      icon: item.icon,
+                      text: item.label,
+                    ),
                 ],
               ),
             ),

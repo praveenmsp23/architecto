@@ -15,7 +15,7 @@ class WelcomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return CupertinoPageScaffold(
       child: Container(
-        padding: EdgeInsets.all(20),
+        padding: const EdgeInsets.all(20),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           crossAxisAlignment: CrossAxisAlignment.center,

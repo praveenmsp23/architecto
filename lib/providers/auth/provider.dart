@@ -1,5 +1,5 @@
-import 'package:architecto/models/common.dart';
 import 'package:architecto/models/organization.dart';
+import 'package:architecto/models/result.dart';
 import 'package:architecto/store/store.dart';
 import 'package:architecto/widgets/snackbar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -57,17 +57,17 @@ class AuthProvider extends ChangeNotifier {
         SnackBar().errorMessage(result.message);
       }
       notifyListeners();
-      return Result(true, 'Sign up successful');
+      return Result(success: true, message: 'Sign up successful');
     } on FirebaseAuthException catch (e) {
       debugPrint("Firebase::SignUp::Exception: $e");
       if (e.code == 'email-already-in-use') {
-        return Result(false, 'Account already exists');
+        return Result(success: false, message: 'Account already exists');
       } else {
-        return Result(false, 'Oops! A Hiccup in the Process');
+        return Result(success: false, message: 'Oops! A Hiccup in the Process');
       }
     } catch (e) {
       debugPrint("Firebase::SignUp::Error: $e");
-      return Result(false, e.toString());
+      return Result(success: false, message: e.toString());
     }
   }
 
@@ -79,17 +79,17 @@ class AuthProvider extends ChangeNotifier {
       );
       this._user = cred.user;
       await validate();
-      return Result(true, 'Login successful');
+      return Result(success: true, message: 'Login successful');
     } on FirebaseAuthException catch (e) {
       debugPrint("Firebase::SignIn::Exception: $e");
       if (e.code == 'invalid-credential') {
-        return Result(false, 'Invalid credentials');
+        return Result(success: false, message: 'Invalid credentials');
       } else {
-        return Result(false, 'Oops! A Hiccup in the Process');
+        return Result(success: false, message: 'Oops! A Hiccup in the Process');
       }
     } catch (e) {
       debugPrint("Firebase::SignIn::Error: $e");
-      return Result(false, e.toString());
+      return Result(success: false, message: e.toString());
     }
   }
 
@@ -97,33 +97,33 @@ class AuthProvider extends ChangeNotifier {
     _firebaseAuth.currentUser?.reload();
     if (_firebaseAuth.currentUser!.emailVerified) {
       await validate();
-      return Result(true, "Email verified");
+      return Result(success: true, message: "Email verified");
     } else {
-      return Result(false, "Email not verified");
+      return Result(success: false, message: "Email not verified");
     }
   }
 
   Future<Result> sendVerificationEmail() async {
     await _firebaseAuth.currentUser?.reload();
     if (_firebaseAuth.currentUser!.emailVerified) {
-      return Result(true, "Email already verified");
+      return Result(success: true, message: "Email already verified");
     }
     try {
       await _firebaseAuth.currentUser?.sendEmailVerification();
-      return Result(true, 'Verification mail sent');
+      return Result(success: true, message: 'Verification mail sent');
     } on FirebaseAuthException catch (e) {
       debugPrint("Firebase::VerificationEmail::Exception: $e");
       if (e.code == 'too-many-requests') {
-        return Result(false, 'Too many requests');
+        return Result(success: false, message: 'Too many requests');
       } else {
-        return Result(false, 'Oops! A Hiccup in the Process');
+        return Result(success: false, message: 'Oops! A Hiccup in the Process');
       }
     } catch (e) {
       debugPrint("Firebase::VerificationEmail::Error: $e");
-      return Result(false, e.toString());
+      return Result(success: false, message: e.toString());
     }
   }
-
+ 
   Future<Result> createOrganization(String name,
       [String? about, String? address]) async {
     try {
@@ -135,9 +135,9 @@ class AuthProvider extends ChangeNotifier {
           address);
       await validate();
     } catch (e) {
-      return Result(false, e.toString());
+      return Result(success: false, message: e.toString());
     }
-    return Result(true, "Organization created successfully");
+    return Result(success: true, message: "Organization created successfully");
   }
 
   Future<void> signOut() async {

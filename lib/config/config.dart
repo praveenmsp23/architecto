@@ -31,8 +31,6 @@ class Config {
         appName = "Architecto";
         baseUrl = 'https://api.architecto.praveenmsp.com';
         break;
-      default:
-        throw UnsupportedError('Unknown environment: $environment');
-    }
+      }
   }
 }

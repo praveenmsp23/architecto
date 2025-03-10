@@ -18,7 +18,7 @@ class OrganizationStore {
     }
 
     DocumentSnapshot orgDoc = querySnapshot.docs.first;
-    return Organization.fromFirestore(orgDoc);
+    return Organization.fromFirestore(orgDoc as DocumentSnapshot<Map<String, dynamic>>);
   }
 
   Future<Organization> createOrganization(
@@ -77,7 +77,7 @@ class OrganizationStore {
         .get()
         .then((snapshot) => snapshot.docs.first);
 
-    Member removedByMember = Member.fromFirestore(removedByMemberSnapshot);
+    Member removedByMember = Member.fromFirestore(removedByMemberSnapshot as DocumentSnapshot<Map<String, dynamic>>);
 
     if (removedByMember.role != MemberRole.owner &&
         removedByMember.role != MemberRole.admin) {
@@ -95,7 +95,7 @@ class OrganizationStore {
     }
 
     DocumentSnapshot userDoc = userMemberSnapshot.docs.first;
-    Member userMember = Member.fromFirestore(userDoc);
+    Member userMember = Member.fromFirestore(userDoc as DocumentSnapshot<Map<String, dynamic>>);
 
     if (userMember.role == MemberRole.owner) {
       throw Exception("Owners cannot be removed.");

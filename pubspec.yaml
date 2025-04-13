@@ -11,9 +11,9 @@ dependencies:
 
   # UI Components
   cupertino_icons: ^1.0.8
-  google_nav_bar: ^5.0.6
   lottie: ^3.1.2
   animate_do: ^3.3.4
+  google_fonts: ^6.2.1
   
   # State Management
   provider: ^6.1.2
@@ -27,9 +27,6 @@ dependencies:
   # Storage and Utilities
   get_storage: ^2.1.1
   convert: ^3.1.1
-  
-  # Theming
-  adaptive_theme: ^3.6.0
 
 dev_dependencies:
   flutter_test:
@@ -39,11 +36,6 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
-
+  
   assets:
     - assets/lottie/
-
-  fonts:
-    - family: "Sriracha"
-      fonts:
-        - asset: fonts/sriracha/Sriracha-Regular.ttf

@@ -1,37 +1,20 @@
 import 'package:flutter/cupertino.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-/// Theme configuration for the app
 class ThemeConfig {
-  // Text styles with Nunito font
   static final _baseTextStyle = GoogleFonts.nunito();
-  
-  static const Color _lightNavPillBackground = CupertinoColors.systemGrey6;
-  static const Color _darkNavPillBackground = Color(0xFF2C2C2C);
-  
+
   static final CupertinoThemeData lightTheme = CupertinoThemeData(
     brightness: Brightness.light,
     primaryColor: CupertinoColors.systemRed,
-    primaryContrastingColor: CupertinoColors.white,
-    barBackgroundColor: CupertinoColors.systemBackground,
-    scaffoldBackgroundColor: CupertinoColors.systemBackground,
     textTheme: CupertinoTextThemeData(
-      primaryColor: CupertinoColors.black,
       textStyle: _baseTextStyle.copyWith(
         color: CupertinoColors.black,
-        fontSize: 18,
+        fontSize: 16,
       ),
-      navTitleTextStyle: _baseTextStyle.copyWith(
+      navActionTextStyle: _baseTextStyle.copyWith(
         color: CupertinoColors.black,
-        fontSize: 20,
-        fontWeight: FontWeight.bold,
-      ),
-      tabLabelTextStyle: _baseTextStyle.copyWith(
-        fontSize: 12,
-      ),
-      actionTextStyle: _baseTextStyle.copyWith(
-        color: CupertinoColors.systemRed,
-        fontSize: 18,
+        fontSize: 16,
         fontWeight: FontWeight.w600,
       ),
     ),
@@ -40,48 +23,138 @@ class ThemeConfig {
   static final CupertinoThemeData darkTheme = CupertinoThemeData(
     brightness: Brightness.dark,
     primaryColor: CupertinoColors.systemRed,
-    primaryContrastingColor: CupertinoColors.black,
-    barBackgroundColor: Color(0xFF121212),
-    scaffoldBackgroundColor: Color(0xFF121212),
     textTheme: CupertinoTextThemeData(
-      primaryColor: CupertinoColors.white,
       textStyle: _baseTextStyle.copyWith(
         color: CupertinoColors.white,
-        fontSize: 18,
+        fontSize: 16,
       ),
-      navTitleTextStyle: _baseTextStyle.copyWith(
+      navActionTextStyle: _baseTextStyle.copyWith(
         color: CupertinoColors.white,
-        fontSize: 20,
-        fontWeight: FontWeight.bold,
-      ),
-      tabLabelTextStyle: _baseTextStyle.copyWith(
-        fontSize: 12,
-      ),
-      actionTextStyle: _baseTextStyle.copyWith(
-        color: CupertinoColors.systemRed,
-        fontSize: 18,
+        fontSize: 16,
         fontWeight: FontWeight.w600,
       ),
     ),
   );
-  
-  static Color getNavPillBackgroundColor(BuildContext context) {
+
+  // Colors
+  static Color backgroundSurfaceColor(BuildContext context) {
     final brightness = CupertinoTheme.of(context).brightness;
-    return brightness == Brightness.light 
-        ? _lightNavPillBackground 
-        : _darkNavPillBackground;
+    return brightness == Brightness.light
+        ? Color(0xFFF2F2F7)
+        : Color(0xFF2C2C2C);
   }
-  
-  static Color getNavIconColor(BuildContext context) {
-    final theme = CupertinoTheme.of(context);
-    final textColor = theme.textTheme.textStyle.color ?? CupertinoColors.black;
-    return textColor.withAlpha(204);
+
+  static Color backgroundInputColor(BuildContext context) {
+    final brightness = CupertinoTheme.of(context).brightness;
+    return brightness == Brightness.light
+        ? CupertinoColors.systemGrey6
+        : Color(0xFF1C1C1E);
   }
-  
-  static BorderSide getStandardBorder(BuildContext context) {
+
+  static Color borderColor(BuildContext context) {
+    final brightness = CupertinoTheme.of(context).brightness;
+    return brightness == Brightness.light
+        ? Color(0xFFD1D1D6)
+        : Color(0xFF8E8E93);
+  }
+
+  static Color accentErrorColor(BuildContext context) {
+    return CupertinoColors.systemRed;
+  }
+
+  static Color textSecondaryColor(BuildContext context) {
+    final brightness = CupertinoTheme.of(context).brightness;
+    return brightness == Brightness.light
+        ? CupertinoColors.systemGrey
+        : CupertinoColors.systemGrey;
+  }
+
+  static Color iconSecondaryColor(BuildContext context) {
+    final brightness = CupertinoTheme.of(context).brightness;
+    return brightness == Brightness.light
+        ? Color(0xFF000000).withAlpha(204)
+        : Color(0xFFFFFFFF).withAlpha(204);
+  }
+
+  static Color navBackgroundColor(BuildContext context) {
+    final brightness = CupertinoTheme.of(context).brightness;
+    return brightness == Brightness.light
+        ? Color(0xFFF2F2F7)
+        : Color(0xFF2C2C2C);
+  }
+
+  static Color navSelectedItemColor(BuildContext context) {
+    final brightness = CupertinoTheme.of(context).brightness;
+    return brightness == Brightness.light
+        ? Color(0xFFFFFFFF)
+        : Color(0xFF3A3A3C);
+  }
+
+  static Color loaderOnPrimaryColor() {
+    return Color(0xFF3A3A3C);
+  }
+
+  // Border Radiuses
+  static BorderRadius get radiusDefault => BorderRadius.circular(8.0);
+  static BorderRadius get radiusInput => BorderRadius.circular(12.0);
+  static BorderRadius get radiusButton => BorderRadius.circular(8.0);
+  static BorderRadius get radiusPill => BorderRadius.circular(30.0);
+
+  static double get borderWidth => 1.0;
+
+  static BorderSide standardBorder(BuildContext context) {
     return BorderSide(
-      color: getNavPillBackgroundColor(context),
-      width: 1.5,
+      color: borderColor(context),
+      width: borderWidth,
+    );
+  }
+
+  static BorderSide errorBorder(BuildContext context) {
+    return BorderSide(
+      color: accentErrorColor(context).withAlpha(179),
+      width: borderWidth,
+    );
+  }
+
+  // Spacing
+  static const double spacingLarge = 24.0;
+  static const double spacingMedium = 16.0;
+  static const double spacingSmall = 8.0;
+  static const double spacingTiny = 4.0;
+
+  // Animation Durations
+  static const Duration durationNormal = Duration(milliseconds: 300);
+  static const Duration durationFast = Duration(milliseconds: 200);
+
+  // Text Styles
+  static TextStyle textHeadingLarge(BuildContext context) {
+    return _baseTextStyle.copyWith(
+      fontSize: 28,
+      fontWeight: FontWeight.w800,
+      color: CupertinoTheme.of(context).textTheme.textStyle.color,
+    );
+  }
+
+  static TextStyle textHeadingMedium(BuildContext context) {
+    return _baseTextStyle.copyWith(
+      fontSize: 20,
+      color: textSecondaryColor(context),
+      fontWeight: FontWeight.w300,
+    );
+  }
+
+  static TextStyle textButton(BuildContext context) {
+    return _baseTextStyle.copyWith(
+      fontSize: 16,
+      fontWeight: FontWeight.w600,
+      color: CupertinoColors.white,
+    );
+  }
+
+  static TextStyle textError(BuildContext context) {
+    return _baseTextStyle.copyWith(
+      fontSize: 12,
+      color: accentErrorColor(context),
     );
   }
 }

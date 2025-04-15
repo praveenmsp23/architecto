@@ -53,8 +53,9 @@ class _TopNavBarState extends State<TopNavBar> {
               padding: const EdgeInsets.all(8),
               decoration: BoxDecoration(
                 color: CupertinoTheme.of(context).barBackgroundColor,
-                borderRadius: BorderRadius.circular(8),
-                border: Border.fromBorderSide(ThemeConfig.getStandardBorder(context)),
+                borderRadius: ThemeConfig.radiusDefault,
+                border:
+                    Border.fromBorderSide(ThemeConfig.standardBorder(context)),
               ),
               child: const Icon(
                 CupertinoIcons.settings,
@@ -67,7 +68,7 @@ class _TopNavBarState extends State<TopNavBar> {
       ),
     );
   }
-  
+
   void _showActionSheet(BuildContext context) {
     showCupertinoModalPopup(
       context: context,

@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:animate_do/animate_do.dart';
 import 'package:architecto/presentation/controllers/register_controller.dart';
+import 'package:architecto/config/theme_config.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({Key? key}) : super(key: key);
@@ -20,36 +21,26 @@ class _RegisterScreenState extends State<RegisterScreen> {
       child: SafeArea(
         child: Container(
           width: double.infinity,
-          padding: const EdgeInsets.all(24.0),
+          padding: EdgeInsets.all(ThemeConfig.spacingLarge),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               FadeInRight(
                 delay: const Duration(milliseconds: 150),
-                child: const Text(
+                child: Text(
                   "Create an account.",
-                  style: TextStyle(
-                    fontSize: 28,
-                    fontWeight: FontWeight.w800,
-                  ),
+                  style: ThemeConfig.textHeadingLarge(context),
                 ),
               ),
-              
               FadeInRight(
                 delay: const Duration(milliseconds: 200),
-                child: const Text(
+                child: Text(
                   "Join us today!",
-                  style: TextStyle(
-                    fontSize: 20,
-                    color: CupertinoColors.systemGrey,
-                    fontWeight: FontWeight.w300,
-                  ),
+                  style: ThemeConfig.textHeadingMedium(context),
                 ),
               ),
-              
               const SizedBox(height: 40),
-              
               Expanded(
                 child: SingleChildScrollView(
                   child: Form(
@@ -64,9 +55,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           error: controller.nameError,
                           delay: 225,
                         ),
-                        
-                        const SizedBox(height: 16),
-                        
+                        SizedBox(height: ThemeConfig.spacingMedium),
                         _buildTextField(
                           controller: controller.emailController,
                           placeholder: "Email",
@@ -75,9 +64,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           error: controller.emailError,
                           delay: 250,
                         ),
-                        
-                        const SizedBox(height: 16),
-                        
+                        SizedBox(height: ThemeConfig.spacingMedium),
                         _buildPasswordField(
                           controller: controller.passwordController,
                           placeholder: "Password",
@@ -86,20 +73,17 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           toggleVisibility: controller.togglePasswordVisibility,
                           delay: 300,
                         ),
-                        
-                        const SizedBox(height: 16),
-                        
+                        SizedBox(height: ThemeConfig.spacingMedium),
                         _buildPasswordField(
                           controller: controller.confirmPasswordController,
                           placeholder: "Confirm Password",
                           error: controller.confirmPasswordError,
                           showPassword: controller.showConfirmPassword,
-                          toggleVisibility: controller.toggleConfirmPasswordVisibility,
+                          toggleVisibility:
+                              controller.toggleConfirmPasswordVisibility,
                           delay: 350,
                         ),
-                        
-                        const SizedBox(height: 16),
-                        
+                        SizedBox(height: ThemeConfig.spacingMedium),
                         _buildTextField(
                           controller: controller.phoneController,
                           placeholder: "Phone (optional)",
@@ -108,48 +92,48 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           error: controller.phoneError,
                           delay: 375,
                         ),
-                        
                         const SizedBox(height: 40),
                       ],
                     ),
                   ),
                 ),
               ),
-              
               FadeInRight(
                 delay: const Duration(milliseconds: 400),
                 child: SizedBox(
                   width: double.infinity,
-                  child: Obx(() => CupertinoButton.filled(
-                    padding: const EdgeInsets.symmetric(vertical: 16),
-                    onPressed: controller.isLoading.value ? null : () {
-                      controller.clearErrors();
-                      controller.register();
-                    },
-                    child: controller.isLoading.value
-                        ? const CupertinoActivityIndicator(color: CupertinoColors.white)
-                        : const Text(
-                            'Sign Up',
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w600,
+                  child: Obx(
+                    () => CupertinoButton.filled(
+                      padding: EdgeInsets.symmetric(
+                          vertical: ThemeConfig.spacingMedium),
+                      borderRadius: ThemeConfig.radiusButton,
+                      onPressed: controller.isLoading.value
+                          ? null
+                          : () {
+                              controller.clearErrors();
+                              controller.register();
+                            },
+                      child: controller.isLoading.value
+                          ? CupertinoActivityIndicator(
+                              color: ThemeConfig.loaderOnPrimaryColor())
+                          : Text(
+                              'Sign Up',
+                              style: ThemeConfig.textButton(context),
                             ),
-                          ),
-                  )),
+                    ),
+                  ),
                 ),
               ),
-              
               const SizedBox(height: 20),
-              
               FadeInRight(
                 delay: const Duration(milliseconds: 450),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Text(
+                    Text(
                       "Already have an account?",
                       style: TextStyle(
-                        color: CupertinoColors.systemGrey,
+                        color: ThemeConfig.textSecondaryColor(context),
                       ),
                     ),
                     const SizedBox(width: 8),
@@ -167,7 +151,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
       ),
     );
   }
-  
+
   Widget _buildTextField({
     required TextEditingController controller,
     required String placeholder,
@@ -189,30 +173,31 @@ class _RegisterScreenState extends State<RegisterScreen> {
               keyboardType: keyboardType,
               onChanged: (_) => this.controller.clearErrors(),
               prefix: Padding(
-                padding: const EdgeInsets.only(left: 12),
+                padding: EdgeInsets.only(left: ThemeConfig.spacingSmall + 4),
                 child: Icon(
                   prefix,
-                  color: CupertinoColors.systemGrey,
+                  color: ThemeConfig.textSecondaryColor(context),
                 ),
               ),
-              padding: const EdgeInsets.all(16),
+              padding: EdgeInsets.all(ThemeConfig.spacingMedium),
               decoration: BoxDecoration(
-                color: CupertinoColors.systemGrey6,
-                border: hasError 
-                    ? Border.all(color: CupertinoColors.systemRed.withOpacity(0.7), width: 1.0)
+                color: ThemeConfig.backgroundInputColor(context),
+                border: hasError
+                    ? Border.all(
+                        color: ThemeConfig.accentErrorColor(context)
+                            .withAlpha(179),
+                        width: ThemeConfig.borderWidth,
+                      )
                     : null,
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: ThemeConfig.radiusInput,
               ),
             ),
             if (hasError)
               Padding(
-                padding: const EdgeInsets.only(top: 6, left: 4),
+                padding: EdgeInsets.only(top: 6, left: 4),
                 child: Text(
                   error.value!,
-                  style: const TextStyle(
-                    color: CupertinoColors.systemRed,
-                    fontSize: 12,
-                  ),
+                  style: ThemeConfig.textError(context),
                 ),
               ),
           ],
@@ -220,7 +205,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
       }),
     );
   }
-  
+
   Widget _buildPasswordField({
     required TextEditingController controller,
     required String placeholder,
@@ -241,43 +226,44 @@ class _RegisterScreenState extends State<RegisterScreen> {
               placeholder: placeholder,
               obscureText: !showPassword.value,
               onChanged: (_) => this.controller.clearErrors(),
-              prefix: const Padding(
-                padding: EdgeInsets.only(left: 12),
+              prefix: Padding(
+                padding: EdgeInsets.only(left: ThemeConfig.spacingSmall + 4),
                 child: Icon(
                   CupertinoIcons.lock,
-                  color: CupertinoColors.systemGrey,
+                  color: ThemeConfig.textSecondaryColor(context),
                 ),
               ),
               suffix: Padding(
-                padding: const EdgeInsets.only(right: 12),
+                padding: EdgeInsets.only(right: ThemeConfig.spacingSmall + 4),
                 child: GestureDetector(
                   onTap: () => toggleVisibility(),
                   child: Icon(
                     showPassword.value
                         ? CupertinoIcons.eye
                         : CupertinoIcons.eye_slash,
-                    color: CupertinoColors.systemGrey,
+                    color: ThemeConfig.textSecondaryColor(context),
                   ),
                 ),
               ),
-              padding: const EdgeInsets.all(16),
+              padding: EdgeInsets.all(ThemeConfig.spacingMedium),
               decoration: BoxDecoration(
-                color: CupertinoColors.systemGrey6,
-                border: hasError 
-                    ? Border.all(color: CupertinoColors.systemRed.withOpacity(0.7), width: 1.0)
+                color: ThemeConfig.backgroundInputColor(context),
+                border: hasError
+                    ? Border.all(
+                        color: ThemeConfig.accentErrorColor(context)
+                            .withAlpha(179),
+                        width: ThemeConfig.borderWidth,
+                      )
                     : null,
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: ThemeConfig.radiusInput,
               ),
             ),
             if (hasError)
               Padding(
-                padding: const EdgeInsets.only(top: 6, left: 4),
+                padding: EdgeInsets.only(top: 6, left: 4),
                 child: Text(
                   error.value!,
-                  style: const TextStyle(
-                    color: CupertinoColors.systemRed,
-                    fontSize: 12,
-                  ),
+                  style: ThemeConfig.textError(context),
                 ),
               ),
           ],
@@ -285,4 +271,4 @@ class _RegisterScreenState extends State<RegisterScreen> {
       }),
     );
   }
-} 
+}

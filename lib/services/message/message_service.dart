@@ -7,7 +7,7 @@ class Message {
       message: message,
       duration: const Duration(seconds: 3),
       icon: const Icon(
-        CupertinoIcons.xmark,
+        CupertinoIcons.exclamationmark_circle,
         color: CupertinoColors.white,
       ),
       backgroundColor: CupertinoColors.systemRed,
@@ -21,7 +21,7 @@ class Message {
       message: message,
       duration: const Duration(seconds: 3),
       icon: const Icon(
-        CupertinoIcons.checkmark,
+        CupertinoIcons.checkmark_alt_circle,
         color: CupertinoColors.white,
       ),
       backgroundColor: CupertinoColors.systemGreen,

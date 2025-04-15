@@ -160,15 +160,19 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
 
   String _getDateText(DateTime date) {
     final now = DateTime.now();
-    if (date.year == now.year && date.month == now.month && date.day == now.day) {
+    if (date.year == now.year &&
+        date.month == now.month &&
+        date.day == now.day) {
       return 'Today';
     }
-    
+
     final yesterday = now.subtract(const Duration(days: 1));
-    if (date.year == yesterday.year && date.month == yesterday.month && date.day == yesterday.day) {
+    if (date.year == yesterday.year &&
+        date.month == yesterday.month &&
+        date.day == yesterday.day) {
       return 'Yesterday';
     }
-    
+
     return '${date.day} ${DateFormat('MMM').format(date)}';
   }
 
@@ -177,7 +181,7 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
     final theme = CupertinoTheme.of(context);
     final colorScheme = CupertinoTheme.of(context).primaryColor;
     final textStyle = theme.textTheme.textStyle;
-    
+
     return CupertinoPageScaffold(
       child: SafeArea(
         child: Column(
@@ -191,31 +195,33 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
                     const SizedBox(width: 16),
                     ...List.generate(_dates.length, (index) {
                       final date = _dates[index];
-                      final isSelected = _selectedDate.year == date.year && 
-                                        _selectedDate.month == date.month && 
-                                        _selectedDate.day == date.day;
-                      
+                      final isSelected = _selectedDate.year == date.year &&
+                          _selectedDate.month == date.month &&
+                          _selectedDate.day == date.day;
+
                       return Padding(
                         padding: const EdgeInsets.only(right: 8),
                         child: GestureDetector(
                           onTap: () => _selectDate(date),
                           child: Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 20, vertical: 10),
                             decoration: BoxDecoration(
-                              color: isSelected 
-                                ? colorScheme 
-                                : CupertinoColors.transparent,
+                              color: isSelected
+                                  ? colorScheme
+                                  : CupertinoColors.transparent,
                               borderRadius: BorderRadius.circular(30),
-                              border: isSelected 
-                                ? null 
-                                : Border.fromBorderSide(ThemeConfig.getStandardBorder(context)),
+                              border: isSelected
+                                  ? null
+                                  : Border.fromBorderSide(
+                                      ThemeConfig.standardBorder(context)),
                             ),
                             child: Text(
                               _getDateText(date),
                               style: textStyle.copyWith(
-                                color: isSelected 
-                                  ? CupertinoColors.white
-                                  : ThemeConfig.getNavIconColor(context),
+                                color: isSelected
+                                    ? CupertinoColors.white
+                                    : ThemeConfig.iconSecondaryColor(context),
                                 fontWeight: FontWeight.w500,
                               ),
                             ),
@@ -228,15 +234,17 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
                       child: GestureDetector(
                         onTap: _openDatePicker,
                         child: Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 20, vertical: 10),
                           decoration: BoxDecoration(
                             color: CupertinoColors.transparent,
                             borderRadius: BorderRadius.circular(30),
-                            border: Border.fromBorderSide(ThemeConfig.getStandardBorder(context)),
+                            border: Border.fromBorderSide(
+                                ThemeConfig.standardBorder(context)),
                           ),
                           child: Icon(
                             CupertinoIcons.settings,
-                            color: ThemeConfig.getNavIconColor(context),
+                            color: ThemeConfig.iconSecondaryColor(context),
                           ),
                         ),
                       ),
@@ -245,7 +253,6 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
                 ),
               ),
             ),
-            
             Expanded(
               child: ListView.builder(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -300,7 +307,7 @@ class AttendanceCard extends StatelessWidget {
     final theme = CupertinoTheme.of(context);
     final colorScheme = CupertinoTheme.of(context).primaryColor;
     final statusColor = _getStatusColor(attendance.status);
-    
+
     return Container(
       margin: const EdgeInsets.only(bottom: 8),
       decoration: BoxDecoration(
@@ -308,13 +315,13 @@ class AttendanceCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: CupertinoColors.systemGrey.withOpacity(0.04),
+            color: CupertinoColors.systemGrey.withAlpha(10),
             blurRadius: 8,
             spreadRadius: 0,
             offset: const Offset(0, 3),
           ),
         ],
-        border: Border.fromBorderSide(ThemeConfig.getStandardBorder(context)),
+        border: Border.fromBorderSide(ThemeConfig.standardBorder(context)),
       ),
       child: Column(
         children: [
@@ -376,7 +383,8 @@ class AttendanceCard extends StatelessWidget {
                 ),
                 // Status badge
                 Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
                   decoration: BoxDecoration(
                     color: statusColor.withAlpha(26),
                     borderRadius: BorderRadius.circular(4),
@@ -408,16 +416,16 @@ class AttendanceCard extends StatelessWidget {
               ],
             ),
           ),
-          
+
           // Divider
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 12),
             child: Container(
               height: 1.2,
-              color: ThemeConfig.getNavPillBackgroundColor(context),
+              color: ThemeConfig.borderColor(context),
             ),
           ),
-          
+
           // Date and details section
           Padding(
             padding: const EdgeInsets.fromLTRB(12, 10, 12, 10),
@@ -449,9 +457,10 @@ class AttendanceCard extends StatelessWidget {
                     ),
                   ],
                 ),
-                
+
                 // Notes section if available
-                if (attendance.notes != null && attendance.notes!.isNotEmpty) ...[
+                if (attendance.notes != null &&
+                    attendance.notes!.isNotEmpty) ...[
                   const SizedBox(height: 12),
                   Container(
                     width: double.infinity,
@@ -489,7 +498,10 @@ class AttendanceCard extends StatelessWidget {
                                   style: theme.textTheme.textStyle.copyWith(
                                     fontSize: 14,
                                     height: 1.4,
-                                    color: CupertinoTheme.of(context).textTheme.textStyle.color,
+                                    color: CupertinoTheme.of(context)
+                                        .textTheme
+                                        .textStyle
+                                        .color,
                                   ),
                                 ),
                               ],
@@ -503,7 +515,7 @@ class AttendanceCard extends StatelessWidget {
               ],
             ),
           ),
-          
+
           // Footer section redesigned
           Container(
             padding: const EdgeInsets.fromLTRB(12, 0, 12, 10),
@@ -566,7 +578,7 @@ class AttendanceCard extends StatelessWidget {
         return 'Holiday';
     }
   }
-  
+
   String _getRoleText(ConstructionRole role) {
     switch (role) {
       case ConstructionRole.mason:

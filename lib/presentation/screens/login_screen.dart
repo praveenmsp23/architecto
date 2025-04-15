@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:architecto/routes/app_pages.dart';
 import 'package:animate_do/animate_do.dart';
 import 'package:architecto/presentation/controllers/login_controller.dart';
+import 'package:architecto/config/theme_config.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -21,36 +22,26 @@ class _LoginScreenState extends State<LoginScreen> {
       child: SafeArea(
         child: Container(
           width: double.infinity,
-          padding: const EdgeInsets.all(24.0),
+          padding: EdgeInsets.all(ThemeConfig.spacingLarge),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               FadeInRight(
                 delay: const Duration(milliseconds: 150),
-                child: const Text(
+                child: Text(
                   "Let's sign you in.",
-                  style: TextStyle(
-                    fontSize: 28,
-                    fontWeight: FontWeight.w800,
-                  ),
+                  style: ThemeConfig.textHeadingLarge(context),
                 ),
               ),
-              
               FadeInRight(
                 delay: const Duration(milliseconds: 200),
-                child: const Text(
+                child: Text(
                   "Welcome back!",
-                  style: TextStyle(
-                    fontSize: 20,
-                    color: CupertinoColors.systemGrey,
-                    fontWeight: FontWeight.w300,
-                  ),
+                  style: ThemeConfig.textHeadingMedium(context),
                 ),
               ),
-              
               const SizedBox(height: 40),
-              
               Form(
                 key: controller.formKey,
                 child: Column(
@@ -68,40 +59,43 @@ class _LoginScreenState extends State<LoginScreen> {
                               keyboardType: TextInputType.emailAddress,
                               onChanged: (_) => controller.clearErrors(),
                               onSubmitted: (_) => controller.validateFields(),
-                              prefix: const Padding(
-                                padding: EdgeInsets.only(left: 12),
+                              prefix: Padding(
+                                padding: EdgeInsets.only(
+                                    left: ThemeConfig.spacingSmall + 4),
                                 child: Icon(
                                   CupertinoIcons.mail,
-                                  color: CupertinoColors.systemGrey,
+                                  color:
+                                      ThemeConfig.textSecondaryColor(context),
                                 ),
                               ),
-                              padding: const EdgeInsets.all(16),
+                              padding:
+                                  EdgeInsets.all(ThemeConfig.spacingMedium),
                               decoration: BoxDecoration(
-                                color: CupertinoColors.systemGrey6,
-                                border: hasError 
-                                    ? Border.all(color: CupertinoColors.systemRed.withOpacity(0.7), width: 1.0)
+                                color:
+                                    ThemeConfig.backgroundInputColor(context),
+                                border: hasError
+                                    ? Border.all(
+                                        color: ThemeConfig.accentErrorColor(
+                                                context)
+                                            .withAlpha(179),
+                                        width: ThemeConfig.borderWidth)
                                     : null,
-                                borderRadius: BorderRadius.circular(12),
+                                borderRadius: ThemeConfig.radiusInput,
                               ),
                             ),
                             if (hasError)
                               Padding(
-                                padding: const EdgeInsets.only(top: 6, left: 4),
+                                padding: EdgeInsets.only(top: 6, left: 4),
                                 child: Text(
                                   controller.emailError.value!,
-                                  style: const TextStyle(
-                                    color: CupertinoColors.systemRed,
-                                    fontSize: 12,
-                                  ),
+                                  style: ThemeConfig.textError(context),
                                 ),
                               ),
                           ],
                         );
                       }),
                     ),
-                    
-                    const SizedBox(height: 16),
-                    
+                    SizedBox(height: ThemeConfig.spacingMedium),
                     FadeInRight(
                       delay: const Duration(milliseconds: 300),
                       child: Obx(() {
@@ -115,43 +109,50 @@ class _LoginScreenState extends State<LoginScreen> {
                               obscureText: !controller.showPassword.value,
                               onChanged: (_) => controller.clearErrors(),
                               onSubmitted: (_) => controller.validateFields(),
-                              prefix: const Padding(
-                                padding: EdgeInsets.only(left: 12),
+                              prefix: Padding(
+                                padding: EdgeInsets.only(
+                                    left: ThemeConfig.spacingSmall + 4),
                                 child: Icon(
                                   CupertinoIcons.lock,
-                                  color: CupertinoColors.systemGrey,
+                                  color:
+                                      ThemeConfig.textSecondaryColor(context),
                                 ),
                               ),
                               suffix: Padding(
-                                padding: const EdgeInsets.only(right: 12),
+                                padding: EdgeInsets.only(
+                                    right: ThemeConfig.spacingSmall + 4),
                                 child: GestureDetector(
                                   onTap: controller.togglePasswordVisibility,
                                   child: Icon(
                                     controller.showPassword.value
                                         ? CupertinoIcons.eye
                                         : CupertinoIcons.eye_slash,
-                                    color: CupertinoColors.systemGrey,
+                                    color:
+                                        ThemeConfig.textSecondaryColor(context),
                                   ),
                                 ),
                               ),
-                              padding: const EdgeInsets.all(16),
+                              padding:
+                                  EdgeInsets.all(ThemeConfig.spacingMedium),
                               decoration: BoxDecoration(
-                                color: CupertinoColors.systemGrey6,
-                                border: hasError 
-                                    ? Border.all(color: CupertinoColors.systemRed.withOpacity(0.7), width: 1.0)
+                                color:
+                                    ThemeConfig.backgroundInputColor(context),
+                                border: hasError
+                                    ? Border.all(
+                                        color: ThemeConfig.accentErrorColor(
+                                                context)
+                                            .withAlpha(179),
+                                        width: ThemeConfig.borderWidth)
                                     : null,
-                                borderRadius: BorderRadius.circular(12),
+                                borderRadius: ThemeConfig.radiusInput,
                               ),
                             ),
                             if (hasError)
                               Padding(
-                                padding: const EdgeInsets.only(top: 6, left: 4),
+                                padding: EdgeInsets.only(top: 6, left: 4),
                                 child: Text(
                                   controller.passwordError.value!,
-                                  style: const TextStyle(
-                                    color: CupertinoColors.systemRed,
-                                    fontSize: 12,
-                                  ),
+                                  style: ThemeConfig.textError(context),
                                 ),
                               ),
                           ],
@@ -161,42 +162,42 @@ class _LoginScreenState extends State<LoginScreen> {
                   ],
                 ),
               ),
-              
               const SizedBox(height: 40),
-              
               FadeInRight(
                 delay: const Duration(milliseconds: 350),
                 child: SizedBox(
                   width: double.infinity,
-                  child: Obx(() => CupertinoButton.filled(
-                    padding: const EdgeInsets.symmetric(vertical: 16),
-                    onPressed: controller.isLoading.value ? null : () {
-                      controller.login();
-                    },
-                    child: controller.isLoading.value
-                        ? const CupertinoActivityIndicator(color: CupertinoColors.white)
-                        : const Text(
-                            'Sign In',
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w600,
+                  child: Obx(
+                    () => CupertinoButton.filled(
+                      padding: EdgeInsets.symmetric(
+                          vertical: ThemeConfig.spacingMedium),
+                      borderRadius: ThemeConfig.radiusButton,
+                      onPressed: controller.isLoading.value
+                          ? null
+                          : () {
+                              controller.login();
+                            },
+                      child: controller.isLoading.value
+                          ? CupertinoActivityIndicator(
+                              color: ThemeConfig.loaderOnPrimaryColor())
+                          : Text(
+                              'Sign In',
+                              style: ThemeConfig.textButton(context),
                             ),
-                          ),
-                  )),
+                    ),
+                  ),
                 ),
               ),
-              
               const SizedBox(height: 20),
-              
               FadeInRight(
                 delay: const Duration(milliseconds: 400),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Text(
+                    Text(
                       "Don't have an account?",
                       style: TextStyle(
-                        color: CupertinoColors.systemGrey,
+                        color: ThemeConfig.textSecondaryColor(context),
                       ),
                     ),
                     const SizedBox(width: 8),

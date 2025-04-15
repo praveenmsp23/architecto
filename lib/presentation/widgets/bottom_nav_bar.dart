@@ -49,46 +49,46 @@ class _BottomNavBarState extends State<BottomNavBar> {
     return Container(
       padding: const EdgeInsets.all(4),
       decoration: BoxDecoration(
-        color: ThemeConfig.getNavPillBackgroundColor(context),
+        color: ThemeConfig.navBackgroundColor(context),
         borderRadius: BorderRadius.circular(30),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          for (int i = 0; i < widget.items.length; i++)
-            _buildTab(index: i),
+          for (int i = 0; i < widget.items.length; i++) _buildTab(index: i),
         ],
       ),
     );
   }
 
   Widget _buildTab({required int index}) {
-    final theme = CupertinoTheme.of(context);
     final item = widget.items[index];
     final isSelected = widget.currentIndex == index;
 
     return GestureDetector(
       onTap: () => widget.onIndexChanged(index),
       child: AnimatedContainer(
-        duration: const Duration(milliseconds: 300),
+        duration: ThemeConfig.durationNormal,
         curve: Curves.easeInOut,
         height: 48,
         width: 48,
         margin: const EdgeInsets.symmetric(horizontal: 2),
         decoration: BoxDecoration(
-          color: isSelected ? theme.barBackgroundColor : null,
+          color: isSelected ? ThemeConfig.navSelectedItemColor(context) : null,
           borderRadius: BorderRadius.circular(25),
         ),
         child: TweenAnimationBuilder<double>(
           tween: Tween<double>(begin: 0, end: isSelected ? 1.0 : 0.0),
-          duration: const Duration(milliseconds: 200),
+          duration: ThemeConfig.durationFast,
           curve: Curves.easeInOut,
           builder: (context, value, _) {
             return Opacity(
               opacity: 0.8 + (0.2 * value),
               child: Icon(
                 item.icon,
-                color: ThemeConfig.getNavIconColor(context),
+                color: isSelected
+                    ? CupertinoTheme.of(context).primaryColor
+                    : ThemeConfig.iconSecondaryColor(context),
                 size: 24,
               ),
             );
@@ -100,7 +100,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
 
   Widget _buildAddButton() {
     final theme = CupertinoTheme.of(context);
-    
+
     return GestureDetector(
       onTap: () {},
       child: Container(

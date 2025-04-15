@@ -5,6 +5,8 @@ import 'package:animate_do/animate_do.dart';
 import 'package:architecto/routes/app_pages.dart';
 import 'package:architecto/services/auth/auth_service.dart';
 import 'package:architecto/config/app_config.dart';
+import 'package:architecto/config/theme_config.dart';
+
 class WelcomeScreen extends StatefulWidget {
   const WelcomeScreen({Key? key}) : super(key: key);
 
@@ -44,14 +46,14 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
         ),
       );
     }
-    
+
     return CupertinoPageScaffold(
       child: SafeArea(
         child: Stack(
           children: [
             // Content area (image and text)
             Padding(
-              padding: const EdgeInsets.all(20),
+              padding: EdgeInsets.all(ThemeConfig.spacingMedium + 4),
               child: Column(
                 children: [
                   Expanded(
@@ -73,13 +75,14 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                         FadeInUp(
                           delay: const Duration(milliseconds: 500),
                           child: Padding(
-                            padding: const EdgeInsets.only(bottom: 16),
+                            padding: EdgeInsets.only(
+                                bottom: ThemeConfig.spacingMedium),
                             child: Text(
                               AppConfig.instance.appName.toUpperCase(),
-                              style: TextStyle(
-                                fontSize: 36,
+                              style: ThemeConfig.textHeadingLarge(context)
+                                  .copyWith(
                                 letterSpacing: 2,
-                                fontWeight: FontWeight.w800,
+                                fontSize: 36,
                               ),
                             ),
                           ),
@@ -90,7 +93,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                             "Your all-in-one solution for construction project management - track labor attendance, manage site inventory, and maintain essential project details.",
                             textAlign: TextAlign.center,
                             style: TextStyle(
-                              color: CupertinoColors.systemGrey,
+                              color: ThemeConfig.textSecondaryColor(context),
                               height: 1.25,
                               fontSize: 16,
                             ),
@@ -104,18 +107,22 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                 ],
               ),
             ),
-            
+
             // Fixed button at bottom
             Positioned(
-              left: 20,
-              right: 20,
-              bottom: 20,
+              left: ThemeConfig.spacingMedium + 4,
+              right: ThemeConfig.spacingMedium + 4,
+              bottom: ThemeConfig.spacingMedium + 4,
               child: FadeInUp(
                 delay: const Duration(milliseconds: 1000),
                 child: CupertinoButton.filled(
-                  padding: const EdgeInsets.symmetric(vertical: 16),
-                  borderRadius: BorderRadius.circular(8),
-                  child: Text("GET STARTED"),
+                  padding:
+                      EdgeInsets.symmetric(vertical: ThemeConfig.spacingMedium),
+                  borderRadius: ThemeConfig.radiusButton,
+                  child: Text(
+                    "GET STARTED",
+                    style: ThemeConfig.textButton(context),
+                  ),
                   onPressed: () {
                     Get.toNamed(Routes.LOGIN);
                   },

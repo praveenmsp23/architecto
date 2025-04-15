@@ -77,4 +77,11 @@ class ThemeConfig {
     final textColor = theme.textTheme.textStyle.color ?? CupertinoColors.black;
     return textColor.withAlpha(204);
   }
+  
+  static BorderSide getStandardBorder(BuildContext context) {
+    return BorderSide(
+      color: getNavPillBackgroundColor(context),
+      width: 1.5,
+    );
+  }
 }

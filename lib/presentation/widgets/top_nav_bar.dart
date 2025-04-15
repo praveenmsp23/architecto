@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:architecto/constants/app_constants.dart';
 import 'package:architecto/services/auth/auth_service.dart';
 import 'package:architecto/services/theme/theme_service.dart';
+import 'package:architecto/config/theme_config.dart';
 import 'package:get/get.dart';
 
 class TopNavBar extends StatefulWidget {
@@ -43,22 +44,89 @@ class _TopNavBarState extends State<TopNavBar> {
               ),
             ],
           ),
-          Obx(
-            () => CupertinoButton(
-              padding: EdgeInsets.zero,
-              onPressed: () => ThemeService.to.toggleTheme(),
-              child: Icon(
-                ThemeService.to.isDarkMode
-                    ? CupertinoIcons.sun_max_fill
-                    : CupertinoIcons.moon_fill,
-                size: 24,
-                color: ThemeService.to.isDarkMode
-                    ? CupertinoColors.systemYellow
-                    : CupertinoColors.systemBlue,
+          CupertinoButton(
+            padding: EdgeInsets.zero,
+            onPressed: () {
+              _showActionSheet(context);
+            },
+            child: Container(
+              padding: const EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                color: CupertinoTheme.of(context).barBackgroundColor,
+                borderRadius: BorderRadius.circular(8),
+                border: Border.fromBorderSide(ThemeConfig.getStandardBorder(context)),
+              ),
+              child: const Icon(
+                CupertinoIcons.settings,
+                size: 20,
+                color: CupertinoColors.systemGrey,
               ),
             ),
           ),
         ],
+      ),
+    );
+  }
+  
+  void _showActionSheet(BuildContext context) {
+    showCupertinoModalPopup(
+      context: context,
+      builder: (BuildContext context) => CupertinoActionSheet(
+        actions: <CupertinoActionSheetAction>[
+          CupertinoActionSheetAction(
+            onPressed: () {
+              ThemeService.to.toggleTheme();
+              Navigator.pop(context);
+            },
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Obx(
+                  () => Icon(
+                    ThemeService.to.isDarkMode
+                        ? CupertinoIcons.sun_max_fill
+                        : CupertinoIcons.moon_fill,
+                    color: ThemeService.to.isDarkMode
+                        ? CupertinoColors.systemYellow
+                        : CupertinoColors.systemBlue,
+                    size: 20,
+                  ),
+                ),
+                const SizedBox(width: 8),
+                Obx(
+                  () => Text(
+                    ThemeService.to.isDarkMode ? 'Light Mode' : 'Dark Mode',
+                  ),
+                ),
+              ],
+            ),
+          ),
+          CupertinoActionSheetAction(
+            onPressed: () {
+              AuthService().signOut();
+              Navigator.pop(context);
+            },
+            isDestructiveAction: true,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Icon(
+                  CupertinoIcons.square_arrow_right,
+                  color: CupertinoColors.systemRed,
+                  size: 20,
+                ),
+                const SizedBox(width: 8),
+                const Text('Sign Out'),
+              ],
+            ),
+          ),
+        ],
+        cancelButton: CupertinoActionSheetAction(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          child: const Text('Cancel'),
+        ),
       ),
     );
   }

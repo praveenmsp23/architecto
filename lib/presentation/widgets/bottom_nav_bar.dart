@@ -72,8 +72,8 @@ class _BottomNavBarState extends State<BottomNavBar> {
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 300),
         curve: Curves.easeInOut,
-        height: 40,
-        width: 40,
+        height: 48,
+        width: 48,
         margin: const EdgeInsets.symmetric(horizontal: 2),
         decoration: BoxDecoration(
           color: isSelected ? theme.barBackgroundColor : null,
@@ -89,7 +89,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
               child: Icon(
                 item.icon,
                 color: ThemeConfig.getNavIconColor(context),
-                size: 20,
+                size: 24,
               ),
             );
           },
@@ -104,8 +104,8 @@ class _BottomNavBarState extends State<BottomNavBar> {
     return GestureDetector(
       onTap: () {},
       child: Container(
-        width: 40,
-        height: 40,
+        width: 48,
+        height: 48,
         decoration: BoxDecoration(
           color: theme.primaryColor,
           shape: BoxShape.circle,
@@ -113,7 +113,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
         child: Icon(
           CupertinoIcons.plus,
           color: CupertinoColors.white,
-          size: 20,
+          size: 24,
         ),
       ),
     );

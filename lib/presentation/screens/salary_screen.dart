@@ -5,18 +5,15 @@ class SalaryScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CupertinoPageScaffold(
-      navigationBar: const CupertinoNavigationBar(
-        middle: Text('Salary'),
-      ),
-      child: const SafeArea(
-        child: Center(
-          child: Text(
-            'Salary Screen',
-            style: TextStyle(fontSize: 24),
-          ),
+    return Container(
+      width: double.infinity,
+      height: double.infinity,
+      child: const Center(
+        child: Text(
+          'Salary Screen',
+          style: TextStyle(fontSize: 24),
         ),
       ),
     );
   }
-} 
+}

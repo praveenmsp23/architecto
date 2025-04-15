@@ -1,7 +1,15 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:architecto/data/repositories/user_repository.dart';
+import 'package:architecto/data/models/user_model.dart';
 
 class AuthService {
+  static final AuthService _instance = AuthService._internal();
+  factory AuthService() => _instance;
+  AuthService._internal();
+  
+  static UserModel? _currentUser;
+  static UserModel? get user => _currentUser;
+  
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final UserRepository _userRepository = UserRepository();
   
@@ -16,6 +24,15 @@ class AuthService {
   
   // Auth state changes stream
   Stream<User?> get authStateChanges => _auth.authStateChanges();
+  
+  // Fetch user data from server
+  Future<void> fetchUser() async {
+    final user = _auth.currentUser;
+    if (user != null) {
+      _currentUser = await _userRepository.getUserById(user.uid);
+      await updateLastActive();
+    }
+  }
   
   // Update user's last active timestamp
   Future<void> updateLastActive() async {
@@ -36,6 +53,7 @@ class AuthService {
       // Update last active timestamp
       if (userCredential.user != null) {
         await _userRepository.updateLastActive(userCredential.user!.uid);
+        await fetchUser();
       }
       
       return userCredential;
@@ -69,6 +87,7 @@ class AuthService {
         
         // Set initial last active timestamp
         await _userRepository.updateLastActive(userCredential.user!.uid);
+        await fetchUser();
       }
       
       return userCredential;
@@ -79,6 +98,7 @@ class AuthService {
   
   // Sign out
   Future<void> signOut() async {
+    _currentUser = null;
     await _auth.signOut();
   }
   
@@ -121,6 +141,9 @@ class AuthService {
       
       // Delete user from Firebase Auth
       await user.delete();
+      
+      // Clear local data
+      _currentUser = null;
     }
   }
 }

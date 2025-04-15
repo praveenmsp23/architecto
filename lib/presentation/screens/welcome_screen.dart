@@ -26,6 +26,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
 
   Future<void> _checkAuthStatus() async {
     if (_authService.isLoggedIn) {
+      await _authService.fetchUser();
       Get.offAllNamed(Routes.HOME);
     } else {
       setState(() {

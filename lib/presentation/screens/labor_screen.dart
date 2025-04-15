@@ -5,16 +5,13 @@ class LaborScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CupertinoPageScaffold(
-      navigationBar: const CupertinoNavigationBar(
-        middle: Text('Labor'),
-      ),
-      child: const SafeArea(
-        child: Center(
-          child: Text(
-            'Labor Screen',
-            style: TextStyle(fontSize: 24),
-          ),
+    return Container(
+      width: double.infinity,
+      height: double.infinity,
+      child: const Center(
+        child: Text(
+          'Labor Screen',
+          style: TextStyle(fontSize: 24),
         ),
       ),
     );
